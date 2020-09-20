@@ -7,7 +7,11 @@ const web3 = new Web3(new Web3.providers.HttpProvider(process.env.ETHER_URL))
 var nonce= web3.eth.getTransactionCount(
 
 exports.handler =  function(event, context, callback) {
+	console.log('LogScheduledEvent');
+    console.log('Received event:', JSON.stringify(event, null, 2));
+   
 	web3.eth.getBalance(addr, function(err, result) {
+		console.log(result);
 		if(result>0){
 			var rawTx = {
 				"nonce": web3.utils.toHex(nonce), 
@@ -24,4 +28,6 @@ exports.handler =  function(event, context, callback) {
 				.on('receipt', console.log);
 		}
 	});	
-}
+
+	callback(null, 'Finished');
+};
